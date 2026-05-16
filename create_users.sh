@@ -11,11 +11,11 @@ for user in "$@"; do
   echo "Skapar användare: $user"
 
   # Skapa användare med hemkatalog
- id "$user" >/dev/null 2>&1 || useradd -m "$user"
+  useradd -m "$user" 2>/dev/null
 
-  # Skapa mappar i hemkatalogen
-  mkdir -p /home/"$user"/Documents
-  mkdir -p /home/"$user"/Downloads
-  mkdir -p /home/"$user"/Work
+  # Skapa mappar
+  mkdir -p /home/$user/Documents
+  mkdir -p /home/$user/Downloads
+  mkdir -p /home/$user/Work
 
 done
