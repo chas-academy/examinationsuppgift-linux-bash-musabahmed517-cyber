@@ -11,7 +11,7 @@ for user in "$@"; do
   echo "Skapar användare: $user"
 
   # Skapa användare med hemkatalog
-  useradd -m "$user"
+ id "$user" >/dev/null 2>&1 || useradd -m "$user"
 
   # Skapa mappar i hemkatalogen
   mkdir -p /home/"$user"/Documents
