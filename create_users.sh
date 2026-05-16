@@ -10,7 +10,10 @@ fi
 for user in "$@"; do
   echo "Skapar användare: $user"
 
-  useradd "$user"
+  # Skapa användare med hemkatalog
+  useradd -m "$user"
+
+  # Skapa mappar i hemkatalogen
   mkdir -p /home/"$user"/Documents
   mkdir -p /home/"$user"/Downloads
   mkdir -p /home/"$user"/Work
