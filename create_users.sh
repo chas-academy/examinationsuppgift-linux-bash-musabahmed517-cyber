@@ -17,5 +17,8 @@ for user in "$@"; do
   mkdir -p /home/$user/Documents
   mkdir -p /home/$user/Downloads
   mkdir -p /home/$user/Work
+  chmod 700 /home/$user/Documents
+chmod 700 /home/$user/Downloads
+chmod 700 /home/$user/Work
 
 done
