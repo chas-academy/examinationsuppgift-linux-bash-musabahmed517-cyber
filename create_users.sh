@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Kontrollera att scriptet körs som root
@@ -11,17 +10,16 @@ fi
 for user in "$@"; do
   echo "Skapar användare: $user"
 
-  # Skapa användare med hemkatalog och bash-shell
-  useradd -m -s /bin/bash "$user"
+  # Skapa användare med hemkatalog
+  useradd -m "$user" 2>/dev/null
 
   # Skapa mappar
-  mkdir -p "/home/$user/Documents"
-  mkdir -p "/home/$user/Downloads"
-  mkdir -p "/home/$user/Work"
+  mkdir -p /home/$user/Documents
+  mkdir -p /home/$user/Downloads
+  mkdir -p /home/$user/Work
 
-  # Sätt rättigheter
-  chmod 700 "/home/$user/Documents"
-  chmod 700 "/home/$user/Downloads"
-  chmod 700 "/home/$user/Work"
+  chmod 700 /home/$user/Documents
+  chmod 700 /home/$user/Downloads
+  chmod 700 /home/$user/Work
 
 done
