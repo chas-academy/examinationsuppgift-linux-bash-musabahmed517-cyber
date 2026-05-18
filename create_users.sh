@@ -19,6 +19,11 @@ for user in "$@"; do
   mkdir -p "/home/$user/Downloads"
   mkdir -p "/home/$user/Work"
 
+  # Sätt ägare
+  chown -R "$user:$user" "/home/$user/Documents"
+  chown -R "$user:$user" "/home/$user/Downloads"
+  chown -R "$user:$user" "/home/$user/Work"
+
   # Rättigheter
   chmod 700 "/home/$user/Documents"
   chmod 700 "/home/$user/Downloads"
@@ -26,6 +31,9 @@ for user in "$@"; do
 
   # Welcome-fil
   echo "Välkommen $user" > "/home/$user/welcome.txt"
-  cat /etc/passwd >> "/home/$user/welcome.txt"
+
+  # Sätt ägare och rättigheter på filen
+  chown "$user:$user" "/home/$user/welcome.txt"
+  chmod 600 "/home/$user/welcome.txt"
 
 done
