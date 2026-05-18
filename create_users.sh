@@ -1,38 +1,32 @@
 #!/bin/bash
 
-# Kontrollera att scriptet körs som root
+# Kontrollera root
 if [ "$EUID" -ne 0 ]; then
   echo "Du måste köra detta script som root"
   exit 1
 fi
 
-# Loopa igenom alla användare
+# Loopa igenom användare
 for user in "$@"; do
 
-  HOME_DIR="/home/$user"
+  # Skapa användare
+  useradd -m "$user"
 
-  # Skapa användaren med bash-shell
-  useradd -m -s /bin/bash "$user"
+  # Skapa mappar i hemkatalogen
+  mkdir -p "/home/$user/Documents"
+  mkdir -p "/home/$user/Downloads"
+  mkdir -p "/home/$user/Work"
 
-  # Skapa mappar
-  mkdir -p "$HOME_DIR/Documents"
-  mkdir -p "$HOME_DIR/Downloads"
-  mkdir -p "$HOME_DIR/Work"
+  # Sätt ägare
+  chown -R "$user:$user" "/home/$user"
 
-  # Sätt rätt ägare
-  chown -R "$user:$user" "$HOME_DIR"
+  # Sätt rättigheter (endast ägare)
+  chmod 700 "/home/$user/Documents"
+  chmod 700 "/home/$user/Downloads"
+  chmod 700 "/home/$user/Work"
 
-  # Sätt rättigheter
-  chmod 700 "$HOME_DIR/Documents"
-  chmod 700 "$HOME_DIR/Downloads"
-  chmod 700 "$HOME_DIR/Work"
-
-  # Skapa welcome-fil
-  echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
-  cut -d: -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
-
-  # Rättigheter på welcome-filen
-  chown "$user:$user" "$HOME_DIR/welcome.txt"
-  chmod 600 "$HOME_DIR/welcome.txt"
+  # Skapa welcome.txt
+  echo "Välkommen $user" > "/home/$user/welcome.txt"
+  cut -d: -f1 /etc/passwd >> "/home/$user/welcome.txt"
 
 done
