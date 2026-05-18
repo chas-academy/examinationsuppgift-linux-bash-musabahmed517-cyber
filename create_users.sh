@@ -1,25 +1,27 @@
 #!/bin/bash
 
-# Kontrollera att scriptet körs som root
+# Kontrollera root
 if [ "$EUID" -ne 0 ]; then
   echo "Du måste köra detta script som root"
   exit 1
 fi
 
-# Gå igenom alla användare
+# Loopa igenom användare
 for user in "$@"; do
-  echo "Skapar användare: $user"
 
-  # Skapa användare med hemkatalog
-  useradd -m "$user" 2>/dev/null
+  # Skapa användare om den inte finns
+  if ! id "$user" &>/dev/null; then
+    useradd -m "$user"
+  fi
 
   # Skapa mappar
-  mkdir -p /home/$user/Documents
-  mkdir -p /home/$user/Downloads
-  mkdir -p /home/$user/Work
+  mkdir -p "/home/$user/Documents"
+  mkdir -p "/home/$user/Downloads"
+  mkdir -p "/home/$user/Work"
 
-  chmod 700 /home/$user/Documents
-  chmod 700 /home/$user/Downloads
-  chmod 700 /home/$user/Work
+  # Rättigheter
+  chmod 700 "/home/$user/Documents"
+  chmod 700 "/home/$user/Downloads"
+  chmod 700 "/home/$user/Work"
 
 done
