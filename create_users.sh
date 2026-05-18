@@ -19,7 +19,7 @@ for user in "$@"; do
   mkdir -p "/home/$user/Downloads"
   mkdir -p "/home/$user/Work"
 
-  # Sätt ägare på hemkatalog och mappar
+  # Sätt ägare
   chown -R "$user:$user" "/home/$user"
 
   # Rättigheter
@@ -35,3 +35,4 @@ for user in "$@"; do
   chmod 600 "/home/$user/welcome.txt"
 
 done
+git add create_users.sh && git commit -m "Updated script" && git push
