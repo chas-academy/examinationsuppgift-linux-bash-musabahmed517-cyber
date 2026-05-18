@@ -9,32 +9,28 @@ fi
 # Loopa igenom alla användare
 for user in "$@"; do
 
-  # Skapa användaren om den inte finns
-  if ! id "$user" &>/dev/null; then
-    useradd -m "$user"
-  fi
+  HOME_DIR="/home/$user"
+
+  # Skapa användaren
+  useradd -m "$user"
 
   # Skapa mappar
-  mkdir -p "/home/$user/Documents"
-  mkdir -p "/home/$user/Downloads"
-  mkdir -p "/home/$user/Work"
+  mkdir -p "$HOME_DIR/Documents"
+  mkdir -p "$HOME_DIR/Downloads"
+  mkdir -p "$HOME_DIR/Work"
 
-  # Sätt rätt ägare
-  chown -R "$user:$user" "/home/$user"
-
-  # Rättigheter
-  chmod 700 "/home/$user/Documents"
-  chmod 700 "/home/$user/Downloads"
-  chmod 700 "/home/$user/Work"
+  # Sätt rättigheter
+  chmod 700 "$HOME_DIR/Documents"
+  chmod 700 "$HOME_DIR/Downloads"
+  chmod 700 "$HOME_DIR/Work"
 
   # Skapa welcome-fil
-  echo "Välkommen $user" > "/home/$user/welcome.txt"
+  echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 
   # Lista användare i systemet
-  cut -d: -f1 /etc/passwd >> "/home/$user/welcome.txt"
+  cut -d: -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
 
-  # Rättigheter på welcome-filen
-  chown "$user:$user" "/home/$user/welcome.txt"
-  chmod 600 "/home/$user/welcome.txt"
+  # Sätt ägare
+  chown -R "$user:$user" "$HOME_DIR"
 
 done
