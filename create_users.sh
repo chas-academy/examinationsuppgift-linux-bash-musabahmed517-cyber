@@ -24,4 +24,8 @@ for user in "$@"; do
   chmod 700 "/home/$user/Downloads"
   chmod 700 "/home/$user/Work"
 
+  # Welcome-fil
+  echo "Välkommen $user" > "/home/$user/welcome.txt"
+  cat /etc/passwd >> "/home/$user/welcome.txt"
+
 done
