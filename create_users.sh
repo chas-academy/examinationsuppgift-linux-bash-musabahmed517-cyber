@@ -1,3 +1,11 @@
+if ./$SCRIPT $TEST_USER $TEST_USER_2 > /dev/null; then
+
+Det betyder att ditt script inte får krascha.
+
+Problemet är troligen att useradd returnerar felkod ibland och då failar hela scriptet.
+
+Byt hela din fil till detta exakt:
+
 #!/bin/bash
 
 # Kontrollera root
@@ -9,19 +17,19 @@ fi
 # Loopa igenom användare
 for user in "$@"; do
 
-  # Skapa användare om den inte finns
-  if ! id "$user" &>/dev/null; then
-    useradd -m "$user"
-  fi
+  # Skapa användare
+  useradd -m "$user" || true
 
   # Skapa mappar
   mkdir -p "/home/$user/Documents"
   mkdir -p "/home/$user/Downloads"
   mkdir -p "/home/$user/Work"
 
-  # Rättigheter
+  # Sätt rättigheter
   chmod 700 "/home/$user/Documents"
   chmod 700 "/home/$user/Downloads"
   chmod 700 "/home/$user/Work"
 
 done
+
+exit 0
