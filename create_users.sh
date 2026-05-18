@@ -33,6 +33,3 @@ for user in "$@"; do
   # Rättigheter på filen
   chown "$user:$user" "/home/$user/welcome.txt"
   chmod 600 "/home/$user/welcome.txt"
-
-done
-git add create_users.sh && git commit -m "Updated script" && git push
