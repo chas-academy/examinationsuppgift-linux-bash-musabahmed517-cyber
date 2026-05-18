@@ -11,13 +11,16 @@ for user in "$@"; do
 
   HOME_DIR="/home/$user"
 
-  # Skapa användaren
-  useradd -m "$user"
+  # Skapa användaren med bash-shell
+  useradd -m -s /bin/bash "$user"
 
   # Skapa mappar
   mkdir -p "$HOME_DIR/Documents"
   mkdir -p "$HOME_DIR/Downloads"
   mkdir -p "$HOME_DIR/Work"
+
+  # Sätt rätt ägare
+  chown -R "$user:$user" "$HOME_DIR"
 
   # Sätt rättigheter
   chmod 700 "$HOME_DIR/Documents"
@@ -26,11 +29,10 @@ for user in "$@"; do
 
   # Skapa welcome-fil
   echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
-
-  # Lista användare i systemet
   cut -d: -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
 
-  # Sätt ägare
-  chown -R "$user:$user" "$HOME_DIR"
+  # Rättigheter på welcome-filen
+  chown "$user:$user" "$HOME_DIR/welcome.txt"
+  chmod 600 "$HOME_DIR/welcome.txt"
 
 done
