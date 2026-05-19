@@ -37,4 +37,4 @@ for user in "$@"; do
 
 done
 
-exit 0
+exit 0   
