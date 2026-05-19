@@ -11,7 +11,7 @@ for user in "$@"; do
 
   # Skapa användaren om den inte finns
   if ! id "$user" &>/dev/null; then
-    useradd -m "$user" || true
+    useradd -m "$user"
   fi
 
   # Skapa mappar
@@ -31,10 +31,9 @@ for user in "$@"; do
   echo "Välkommen $user" > "/home/$user/welcome.txt"
   cut -d: -f1 /etc/passwd >> "/home/$user/welcome.txt"
 
-  # Rättigheter på welcome.txt
-  chown "$user:$user" "/home/$user/welcome.txt"
+  # Rättigheter för welcome.txt
   chmod 600 "/home/$user/welcome.txt"
 
 done
 
-exit 0   
+exit 0
